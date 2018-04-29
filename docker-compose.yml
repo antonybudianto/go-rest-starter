@@ -1,0 +1,27 @@
+version: '3'
+services:
+  api:
+    build: .
+    image: go-starter-api
+    ports:
+      - 8000:8000
+      - 2345:2345
+    depends_on:
+      - db
+    volumes:
+      - ./go:/go/src/go-rest-starter/go
+    command: sh -c './wait-for.sh db:3306 -- chmod +x ./start.sh && ./start.sh'
+    env_file:
+      - .env
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: hello
+    ports:
+      - 3306:3306
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
