@@ -18,7 +18,7 @@ fi
 
 if [ "$BUILD" = true ] ; then
   echo 'Running build'
-  go build -o $BIN_NAME .
+  go build -o $BIN_NAME ./cmd/apiapp/main.go
   if [ "$EXEC" = true ] ; then
     ./$BIN_NAME
   fi

@@ -28,6 +28,13 @@ It'll be served at http://localhost:8000
 
 Try visiting http://localhost:8000/users
 
+## Production
+
+```sh
+docker build -t starter-prod:latest -f ./Dockerfile.prod .
+docker run starter-prod:latest
+```
+
 ## Credits
 
 https://github.com/ilourt/gocker
