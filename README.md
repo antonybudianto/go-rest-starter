@@ -10,12 +10,6 @@ Use official dependency manager, [dep](https://github.com/golang/dep)
 dep ensure
 ```
 
-## Start
-
-```
-go run *.go
-```
-
 ## Docker
 
 You can use Docker and docker-compose for development
@@ -31,8 +25,8 @@ Try visiting http://localhost:8000/users
 ## Production
 
 ```sh
-docker build -t starter-prod:latest -f ./Dockerfile.prod .
-docker run starter-prod:latest
+docker-compose -f docker-compose.production.yml build
+docker-compose -f docker-compose.production.yml up
 ```
 
 ## Credits

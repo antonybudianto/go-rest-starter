@@ -1,16 +1,14 @@
 version: '3'
 services:
   api:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
     image: go-starter-api
     ports:
       - 8000:8000
-      - 2345:2345
     depends_on:
       - db
-    volumes:
-      - ./go:/go/src/go-rest-starter/go
-    command: sh -c './wait-for.sh db:3306 -- chmod +x ./start.sh && ./start.sh'
     env_file:
       - .env
   db:
