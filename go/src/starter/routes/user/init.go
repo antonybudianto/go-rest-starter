@@ -3,10 +3,11 @@ package user
 import (
 	"database/sql"
 	"encoding/json"
-	"github.com/gorilla/mux"
 	"go-rest-starter/go/src/starter/model"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 // Handler for route
@@ -116,6 +117,10 @@ func (a *Handler) deleteUser(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, map[string]string{"result": "success"})
 }
 
+func (a *Handler) getInfo(w http.ResponseWriter, r *http.Request) {
+	respondWithJSON(w, http.StatusOK, map[string]string{"message": "Hello world antonsssy!"})
+}
+
 func respondWithError(w http.ResponseWriter, code int, message string) {
 	respondWithJSON(w, code, map[string]string{"error": message})
 }
@@ -135,4 +140,5 @@ func (a *Handler) InitializeRoutes() {
 	a.Router.HandleFunc("/user/{id:[0-9]+}", a.getUser).Methods("GET")
 	a.Router.HandleFunc("/user/{id:[0-9]+}", a.updateUser).Methods("PUT")
 	a.Router.HandleFunc("/user/{id:[0-9]+}", a.deleteUser).Methods("DELETE")
+	a.Router.HandleFunc("/info", a.getInfo).Methods("GET")
 }

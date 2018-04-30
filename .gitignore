@@ -2,4 +2,4 @@ vendor
 /go/bin
 /go/pkg
 !/go/src/starter
-go/src/starter/goapp
+go/src/starter/apiapp

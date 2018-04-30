@@ -3,17 +3,11 @@
 if [ "$GO_DEP" = true ]; then
   echo 'Running dep ensure...'
   dep ensure
-else
-  go install -v .
-fi
-
-if [ "$DEBUG" = true ] ; then
-  modd -f=./modd-debug.conf
 fi
 
 if [ "$WATCH" = true ] ; then
-  echo 'Running modd...'
-  modd
+  echo 'Running realize...'
+  realize start
 fi
 
 if [ "$BUILD" = true ] ; then

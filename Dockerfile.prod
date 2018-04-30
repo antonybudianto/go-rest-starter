@@ -9,9 +9,9 @@ ENV GOARCH=386
 WORKDIR /go/src/go-rest-starter/go/src/starter
 COPY ./go/src/starter .
 RUN dep ensure
-RUN go build -o goapp ./cmd/apiapp/main.go
+RUN go build -o apiapp ./cmd/apiapp/main.go
 
 FROM scratch
-COPY --from=build-env /go/src/go-rest-starter/go/src/starter/goapp .
+COPY --from=build-env /go/src/go-rest-starter/go/src/starter/apiapp .
 
-ENTRYPOINT ["./goapp"]
+ENTRYPOINT ["./apiapp"]
