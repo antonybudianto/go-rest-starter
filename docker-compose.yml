@@ -10,7 +10,7 @@ services:
       - db
     volumes:
       - ./starter:/projects/starter
-      - "./go:/go"
+      - "/go"
     # command: tail -f /dev/null
     command: sh -c './wait-for.sh db:3306 -- chmod +x ./start.sh && ./start.sh'
     env_file:
