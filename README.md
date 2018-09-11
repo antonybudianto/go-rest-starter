@@ -2,19 +2,29 @@
 
 A starter for a Golang REST API.
 
-## Docker
+## Getting started
 
 You can use Docker and docker-compose for development
 
-```
+```sh
 docker-compose up
 ```
 
-It'll be served at http://localhost:8000
+- Try visiting http://localhost:8080/ for adminer and run `create_table.sql` there
+- Finally, visit http://localhost:8000/users/ to get the users.
 
-Try visiting http://localhost:8000/users
+### IDE Integration
 
-## SSH
+Set your GOPATH to `<current-directory>/go`
+
+Example:
+
+```sh
+export GOPATH=/Users/antony/code/go-rest-starter/go
+```
+
+### SSH
+
 ```sh
 $ docker exec -it 7bb8b885ea2d /bin/sh
 ```
