@@ -14,6 +14,11 @@ It'll be served at http://localhost:8000
 
 Try visiting http://localhost:8000/users
 
+## SSH
+```sh
+$ docker exec -it 7bb8b885ea2d /bin/sh
+```
+
 ## Production
 
 ```sh
