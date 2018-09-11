@@ -1,0 +1,25 @@
+settings:
+  legacy:
+    force: false
+    interval: 0s
+schema:
+- name: apiapp
+  path: .
+  commands:
+    install:
+      status: false
+    run:
+      status: true
+      method: ./apiapp
+    build:
+      status: true
+      method: go build -o apiapp cmd/apiapp/main.go
+  watcher:
+    extensions:
+    - go
+    paths:
+    - /
+    ignored_paths:
+    - .git
+    - .realize
+    - vendor

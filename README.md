@@ -2,14 +2,6 @@
 
 A starter for a Golang REST API.
 
-## Install
-
-Use official dependency manager, [dep](https://github.com/golang/dep)
-
-```
-dep ensure
-```
-
 ## Docker
 
 You can use Docker and docker-compose for development
