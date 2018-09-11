@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"go-rest-starter/go/src/starter/routes/user"
+	"starter/routes/user"
 	// for driver
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"

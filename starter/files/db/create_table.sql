@@ -5,3 +5,5 @@ CREATE TABLE users (
     name VARCHAR(50) NOT NULL,
     age INT NOT NULL
 );
+
+INSERT INTO users (name, age) VALUES ("Antony", 25);

@@ -3,7 +3,7 @@ package user
 import (
 	"database/sql"
 	"encoding/json"
-	"go-rest-starter/go/src/starter/model"
+	"starter/model"
 	"net/http"
 	"strconv"
 

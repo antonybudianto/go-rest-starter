@@ -1,7 +1,7 @@
 package main
 
 import (
-	"go-rest-starter/go/src/starter/app"
+	"starter/app"
 	"log"
 )
 

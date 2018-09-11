@@ -1,9 +1,9 @@
 #!/bin/sh
 
-if [ "$GO_DEP" = true ]; then
-  echo 'Running dep ensure...'
-  dep ensure
-fi
+#if [ "$GO_DEP" = true ]; then
+#  echo 'Running dep ensure...'
+#  dep ensure
+#fi
 
 if [ "$WATCH" = true ] ; then
   echo 'Running realize...'
