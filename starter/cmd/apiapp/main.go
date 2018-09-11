@@ -1,8 +1,8 @@
 package main
 
 import (
-	"starter/app"
 	"log"
+	"starter/app"
 )
 
 func main() {
