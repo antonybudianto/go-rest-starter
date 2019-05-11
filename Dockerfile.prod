@@ -1,7 +1,7 @@
 FROM golang:1.11-alpine AS build-env
 
 RUN apk --update add git
-RUN go get -u github.com/golang/dep/cmd/dep
+# RUN go get -u github.com/golang/dep/cmd/dep
 
 ENV GOOS=linux
 ENV GOARCH=386
