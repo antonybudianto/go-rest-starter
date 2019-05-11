@@ -10,9 +10,9 @@ ENV CGO_ENABLED=0
 WORKDIR /projects/starter
 COPY ./starter .
 # RUN dep ensure
-RUN go build -o apiapp ./cmd/apiapp/main.go
+RUN go build -o helloapp ./cmd/helloapp/main.go
 
 FROM scratch
-COPY --from=build-env /projects/starter/apiapp .
+COPY --from=build-env /projects/starter/helloapp .
 
-ENTRYPOINT ["./apiapp"]
+ENTRYPOINT ["./helloapp"]

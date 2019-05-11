@@ -12,7 +12,7 @@ fi
 
 if [ "$BUILD" = true ] ; then
   echo 'Running build'
-  go build -o $BIN_NAME ./cmd/apiapp/main.go
+  go build -o $BIN_NAME ./cmd/$BIN_NAME/main.go
   if [ "$EXEC" = true ] ; then
     ./$BIN_NAME
   fi

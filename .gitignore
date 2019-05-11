@@ -1,4 +1,5 @@
 vendor
-starter/apiapp
+starter/helloapp
 starter/main
 /go
+.vscode

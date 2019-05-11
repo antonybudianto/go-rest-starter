@@ -3,17 +3,17 @@ settings:
     force: false
     interval: 0s
 schema:
-- name: apiapp
+- name: helloapp
   path: .
   commands:
     install:
       status: false
     run:
       status: true
-      method: ./apiapp
+      method: ./helloapp
     build:
       status: true
-      method: go build -o apiapp cmd/apiapp/main.go
+      method: go build -o helloapp cmd/helloapp/main.go
   watcher:
     extensions:
     - go

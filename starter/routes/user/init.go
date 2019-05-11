@@ -3,11 +3,11 @@ package user
 import (
 	"database/sql"
 	"encoding/json"
-	"starter/model"
-	"net/http"
-	"strconv"
-
 	"github.com/gorilla/mux"
+	"net/http"
+	"starter/core"
+	"starter/model"
+	"strconv"
 )
 
 // Handler for route
@@ -27,13 +27,14 @@ func (a *Handler) getUsers(w http.ResponseWriter, r *http.Request) {
 		start = 0
 	}
 
-	products, err := model.GetUsers(a.DB, start, count)
+	users, err := model.GetUsers(a.DB, start, count)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	respondWithJSON(w, http.StatusOK, products)
+	payload := core.SimplePayload{Data: users}
+	respondWithJSON(w, http.StatusOK, payload)
 }
 
 func (a *Handler) createUser(w http.ResponseWriter, r *http.Request) {
@@ -118,7 +119,7 @@ func (a *Handler) deleteUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *Handler) getInfo(w http.ResponseWriter, r *http.Request) {
-	respondWithJSON(w, http.StatusOK, map[string]string{"message": "Hello world antonsssy!"})
+	respondWithJSON(w, http.StatusOK, map[string]string{"message": "Hello world antony!"})
 }
 
 func respondWithError(w http.ResponseWriter, code int, message string) {
