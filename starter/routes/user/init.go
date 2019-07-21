@@ -136,10 +136,11 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 
 // InitializeRoutes for user routes
 func (a *Handler) InitializeRoutes() {
-	a.Router.HandleFunc("/users", a.getUsers).Methods("GET")
-	a.Router.HandleFunc("/user", a.createUser).Methods("POST")
-	a.Router.HandleFunc("/user/{id:[0-9]+}", a.getUser).Methods("GET")
-	a.Router.HandleFunc("/user/{id:[0-9]+}", a.updateUser).Methods("PUT")
-	a.Router.HandleFunc("/user/{id:[0-9]+}", a.deleteUser).Methods("DELETE")
-	a.Router.HandleFunc("/info", a.getInfo).Methods("GET")
+	s := a.Router.PathPrefix("/api").Subrouter()
+	s.HandleFunc("/users", a.getUsers).Methods("GET")
+	s.HandleFunc("/user", a.createUser).Methods("POST")
+	s.HandleFunc("/user/{id:[0-9]+}", a.getUser).Methods("GET")
+	s.HandleFunc("/user/{id:[0-9]+}", a.updateUser).Methods("PUT")
+	s.HandleFunc("/user/{id:[0-9]+}", a.deleteUser).Methods("DELETE")
+	s.HandleFunc("/info", a.getInfo).Methods("GET")
 }
