@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"starter/routes/user"
 	// for driver
@@ -18,12 +19,18 @@ type App struct {
 	DB     *sql.DB
 }
 
+const dbDriver = "mysql"
+const dbName = "rest_api_example"
+
+var dbUsername = os.Getenv("DB_USERNAME")
+var dbPassword = os.Getenv("DB_PASSWORD")
+
 // Initialize App dependencies
-func (a *App) Initialize(user, password, dbname string) {
-	connectionString := fmt.Sprintf("%s:%s@tcp(db:3306)/%s", user, password, dbname)
+func (a *App) Initialize() {
+	connectionString := fmt.Sprintf("%s:%s@tcp(db:3306)/%s", dbUsername, dbPassword, dbName)
 
 	var err error
-	a.DB, err = sql.Open("mysql", connectionString)
+	a.DB, err = sql.Open(dbDriver, connectionString)
 	if err != nil {
 		log.Fatal(err)
 	}
