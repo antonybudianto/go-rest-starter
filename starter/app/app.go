@@ -7,7 +7,8 @@ import (
 	"net/http"
 	"os"
 
-	"starter/routes/user"
+	"starter/core"
+	"starter/user"
 	// for driver
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
@@ -15,9 +16,7 @@ import (
 
 // App level struct containing its dependencies
 type App struct {
-	MainRouter *mux.Router
-	APIRouter  *mux.Router
-	DB         *sql.DB
+	AppCtx *core.AppContext
 }
 
 const dbDriver = "mysql"
@@ -31,22 +30,24 @@ func (a *App) Initialize() {
 	connectionString := fmt.Sprintf("%s:%s@tcp(db:3306)/%s", dbUsername, dbPassword, dbName)
 
 	var err error
-	a.DB, err = sql.Open(dbDriver, connectionString)
+	a.AppCtx = &core.AppContext{}
+
+	a.AppCtx.DB, err = sql.Open(dbDriver, connectionString)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	a.MainRouter = mux.NewRouter()
-	a.APIRouter = a.MainRouter.PathPrefix("/api").Subrouter()
+	a.AppCtx.MainRouter = mux.NewRouter()
+	a.AppCtx.APIRouter = a.AppCtx.MainRouter.PathPrefix("/api").Subrouter()
 	a.initializeRoutes()
 }
 
 // Run app
 func (a *App) Run(addr string) {
-	log.Fatal(http.ListenAndServe(addr, a.MainRouter))
+	log.Fatal(http.ListenAndServe(addr, a.AppCtx.MainRouter))
 }
 
 func (a *App) initializeRoutes() {
-	u := user.Handler{APIRouter: a.APIRouter, DB: a.DB}
+	u := user.Handler{DB: a.AppCtx.DB, Router: a.AppCtx.APIRouter}
 	u.InitializeRoutes()
 }

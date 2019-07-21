@@ -6,14 +6,13 @@ import (
 	"github.com/gorilla/mux"
 	"net/http"
 	"starter/core"
-	"starter/model"
 	"strconv"
 )
 
 // Handler for route
 type Handler struct {
-	APIRouter *mux.Router
-	DB        *sql.DB
+	Router *mux.Router
+	DB     *sql.DB
 }
 
 func (a *Handler) getUsers(w http.ResponseWriter, r *http.Request) {
@@ -27,7 +26,7 @@ func (a *Handler) getUsers(w http.ResponseWriter, r *http.Request) {
 		start = 0
 	}
 
-	users, err := model.GetUsers(a.DB, start, count)
+	users, err := GetUsers(a.DB, start, count)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
@@ -38,7 +37,7 @@ func (a *Handler) getUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *Handler) createUser(w http.ResponseWriter, r *http.Request) {
-	var u model.User
+	var u User
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&u); err != nil {
 		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
@@ -62,7 +61,7 @@ func (a *Handler) getUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	u := model.User{ID: id}
+	u := User{ID: id}
 	if err := u.GetUser(a.DB); err != nil {
 		switch err {
 		case sql.ErrNoRows:
@@ -84,7 +83,7 @@ func (a *Handler) updateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var u model.User
+	var u User
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&u); err != nil {
 		respondWithError(w, http.StatusBadRequest, "Invalid resquest payload")
@@ -109,7 +108,7 @@ func (a *Handler) deleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	u := model.User{ID: id}
+	u := User{ID: id}
 	if err := u.DeleteUser(a.DB); err != nil {
 		respondWithError(w, http.StatusInternalServerError, err.Error())
 		return
@@ -136,10 +135,10 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 
 // InitializeRoutes for user routes
 func (a *Handler) InitializeRoutes() {
-	a.APIRouter.HandleFunc("/users", a.getUsers).Methods("GET")
-	a.APIRouter.HandleFunc("/user", a.createUser).Methods("POST")
-	a.APIRouter.HandleFunc("/user/{id:[0-9]+}", a.getUser).Methods("GET")
-	a.APIRouter.HandleFunc("/user/{id:[0-9]+}", a.updateUser).Methods("PUT")
-	a.APIRouter.HandleFunc("/user/{id:[0-9]+}", a.deleteUser).Methods("DELETE")
-	a.APIRouter.HandleFunc("/info", a.getInfo).Methods("GET")
+	a.Router.HandleFunc("/users", a.getUsers).Methods("GET")
+	a.Router.HandleFunc("/user", a.createUser).Methods("POST")
+	a.Router.HandleFunc("/user/{id:[0-9]+}", a.getUser).Methods("GET")
+	a.Router.HandleFunc("/user/{id:[0-9]+}", a.updateUser).Methods("PUT")
+	a.Router.HandleFunc("/user/{id:[0-9]+}", a.deleteUser).Methods("DELETE")
+	a.Router.HandleFunc("/info", a.getInfo).Methods("GET")
 }
