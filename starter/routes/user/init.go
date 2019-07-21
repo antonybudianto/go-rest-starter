@@ -12,8 +12,8 @@ import (
 
 // Handler for route
 type Handler struct {
-	Router *mux.Router
-	DB     *sql.DB
+	APIRouter *mux.Router
+	DB        *sql.DB
 }
 
 func (a *Handler) getUsers(w http.ResponseWriter, r *http.Request) {
@@ -136,11 +136,10 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 
 // InitializeRoutes for user routes
 func (a *Handler) InitializeRoutes() {
-	s := a.Router.PathPrefix("/api").Subrouter()
-	s.HandleFunc("/users", a.getUsers).Methods("GET")
-	s.HandleFunc("/user", a.createUser).Methods("POST")
-	s.HandleFunc("/user/{id:[0-9]+}", a.getUser).Methods("GET")
-	s.HandleFunc("/user/{id:[0-9]+}", a.updateUser).Methods("PUT")
-	s.HandleFunc("/user/{id:[0-9]+}", a.deleteUser).Methods("DELETE")
-	s.HandleFunc("/info", a.getInfo).Methods("GET")
+	a.APIRouter.HandleFunc("/users", a.getUsers).Methods("GET")
+	a.APIRouter.HandleFunc("/user", a.createUser).Methods("POST")
+	a.APIRouter.HandleFunc("/user/{id:[0-9]+}", a.getUser).Methods("GET")
+	a.APIRouter.HandleFunc("/user/{id:[0-9]+}", a.updateUser).Methods("PUT")
+	a.APIRouter.HandleFunc("/user/{id:[0-9]+}", a.deleteUser).Methods("DELETE")
+	a.APIRouter.HandleFunc("/info", a.getInfo).Methods("GET")
 }

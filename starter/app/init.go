@@ -15,8 +15,9 @@ import (
 
 // App level struct containing its dependencies
 type App struct {
-	Router *mux.Router
-	DB     *sql.DB
+	MainRouter *mux.Router
+	APIRouter  *mux.Router
+	DB         *sql.DB
 }
 
 const dbDriver = "mysql"
@@ -35,16 +36,17 @@ func (a *App) Initialize() {
 		log.Fatal(err)
 	}
 
-	a.Router = mux.NewRouter()
+	a.MainRouter = mux.NewRouter()
+	a.APIRouter = a.MainRouter.PathPrefix("/api").Subrouter()
 	a.initializeRoutes()
 }
 
 // Run app
 func (a *App) Run(addr string) {
-	log.Fatal(http.ListenAndServe(addr, a.Router))
+	log.Fatal(http.ListenAndServe(addr, a.MainRouter))
 }
 
 func (a *App) initializeRoutes() {
-	u := user.Handler{Router: a.Router, DB: a.DB}
+	u := user.Handler{APIRouter: a.APIRouter, DB: a.DB}
 	u.InitializeRoutes()
 }
