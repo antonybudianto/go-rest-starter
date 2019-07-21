@@ -48,6 +48,5 @@ func (a *App) Run(addr string) {
 }
 
 func (a *App) initializeRoutes() {
-	u := user.Handler{DB: a.AppCtx.DB, Router: a.AppCtx.APIRouter}
-	u.InitializeRoutes()
+	user.New(a.AppCtx.DB, a.AppCtx.APIRouter)
 }

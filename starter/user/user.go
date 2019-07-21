@@ -9,13 +9,13 @@ import (
 	"strconv"
 )
 
-// Handler for route
-type Handler struct {
+// Module user module
+type Module struct {
 	Router *mux.Router
 	DB     *sql.DB
 }
 
-func (a *Handler) getUsers(w http.ResponseWriter, r *http.Request) {
+func (a *Module) getUsers(w http.ResponseWriter, r *http.Request) {
 	count, _ := strconv.Atoi(r.FormValue("count"))
 	start, _ := strconv.Atoi(r.FormValue("start"))
 
@@ -36,7 +36,7 @@ func (a *Handler) getUsers(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, payload)
 }
 
-func (a *Handler) createUser(w http.ResponseWriter, r *http.Request) {
+func (a *Module) createUser(w http.ResponseWriter, r *http.Request) {
 	var u User
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&u); err != nil {
@@ -53,7 +53,7 @@ func (a *Handler) createUser(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusCreated, u)
 }
 
-func (a *Handler) getUser(w http.ResponseWriter, r *http.Request) {
+func (a *Module) getUser(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -75,7 +75,7 @@ func (a *Handler) getUser(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, u)
 }
 
-func (a *Handler) updateUser(w http.ResponseWriter, r *http.Request) {
+func (a *Module) updateUser(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -100,7 +100,7 @@ func (a *Handler) updateUser(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, u)
 }
 
-func (a *Handler) deleteUser(w http.ResponseWriter, r *http.Request) {
+func (a *Module) deleteUser(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
@@ -117,7 +117,7 @@ func (a *Handler) deleteUser(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, map[string]string{"result": "success"})
 }
 
-func (a *Handler) getInfo(w http.ResponseWriter, r *http.Request) {
+func (a *Module) getInfo(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, map[string]string{"message": "Hello world antony!"})
 }
 
@@ -133,12 +133,18 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	w.Write(response)
 }
 
-// InitializeRoutes for user routes
-func (a *Handler) InitializeRoutes() {
+func (a *Module) initializeRoutes() {
 	a.Router.HandleFunc("/users", a.getUsers).Methods("GET")
 	a.Router.HandleFunc("/user", a.createUser).Methods("POST")
 	a.Router.HandleFunc("/user/{id:[0-9]+}", a.getUser).Methods("GET")
 	a.Router.HandleFunc("/user/{id:[0-9]+}", a.updateUser).Methods("PUT")
 	a.Router.HandleFunc("/user/{id:[0-9]+}", a.deleteUser).Methods("DELETE")
 	a.Router.HandleFunc("/info", a.getInfo).Methods("GET")
+}
+
+// New init user module
+func New(db *sql.DB, router *mux.Router) *Module {
+	m := &Module{DB: db, Router: router}
+	m.initializeRoutes()
+	return m
 }
