@@ -1,15 +1,14 @@
-FROM golang:1.11-alpine AS build-env
+FROM golang:1.18-alpine AS build-env
 
-RUN apk --update add git
-# RUN go get -u github.com/golang/dep/cmd/dep
-
+WORKDIR /projects/starter
 ENV GOOS=linux
 ENV GOARCH=386
 ENV CGO_ENABLED=0
 
-WORKDIR /projects/starter
+RUN apk --update add git
+
 COPY ./starter .
-# RUN dep ensure
+
 RUN go build -o helloapp ./cmd/helloapp/main.go
 
 FROM scratch
